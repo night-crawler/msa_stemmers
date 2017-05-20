@@ -113,7 +113,7 @@ def stem(lang, text, stemmer_class='nltk.snowball', stemmer_options=None):
     return stemmed_words
 
 
-@jsonrpc.method('nltk.stem.snowball.supported_languages() -> Array')
+@jsonrpc.method('nltk.stem.supported_languages() -> Array')
 def supported_languages():
     res = []
     for lang, stemmers_dict in STEMMER_MAP.items():
