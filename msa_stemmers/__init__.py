@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_jsonrpc import JSONRPC
 
-__version__ = '0.1.0'
+__version__ = '0.0.0'
 
 # global, but you can make it better =) (for instance: app.jsonrpc etc)
 jsonrpc = JSONRPC(service_url='/api', enable_web_browsable_api=True)

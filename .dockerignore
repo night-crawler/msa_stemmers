@@ -1,0 +1,6 @@
+client/.tmp/
+node_modules/
+.tmp/
+.git/
+.idea/
+__pycache__

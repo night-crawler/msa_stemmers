@@ -5,3 +5,4 @@ marshmallow==2.13.5
 gunicorn==19.7.1
 nltk
 pycountry
+requests
