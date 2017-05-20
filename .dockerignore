@@ -4,3 +4,7 @@ node_modules/
 .git/
 .idea/
 __pycache__
+.bumpversion.cfg
+build.sh
+docker-compose.production.yml
+docker-compose.yml
