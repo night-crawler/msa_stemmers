@@ -2,7 +2,7 @@ version: '2'
 services:
   web:
      build: .
-     image: ncrawler/msa_stemmers:0.0.2
+     image: ncrawler/msa_stemmers:0.0.3
      command: gunicorn
      volumes:
        - .:/application/msa_stemmers
