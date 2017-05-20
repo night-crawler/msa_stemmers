@@ -1,0 +1,7 @@
+Flask==0.12.1
+Flask-JSONRPC==0.3.1
+Flask-Script==2.0.5
+marshmallow==2.13.5
+gunicorn==19.7.1
+nltk
+pycountry
