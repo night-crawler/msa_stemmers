@@ -2,7 +2,7 @@ import typing as t
 from copy import copy
 
 import pycountry
-from nltk import SnowballStemmer, LancasterStemmer
+from nltk import SnowballStemmer, LancasterStemmer, ISRIStemmer
 from nltk.stem import snowball
 
 from msa_stemmers.schemas import LanguageSchema
@@ -53,7 +53,11 @@ STEMMER_MAP = {
     'swedish': {
         'nltk.snowball': snowball.SwedishStemmer,
     },
+    'arabic': {
+        'nltk.stem.isri': ISRIStemmer
+    }
 }
+
 
 DEFAULT_PARSER_OPTIONS_MAP = {
     snowball.DanishStemmer: {'ignore_stopwords': True},
