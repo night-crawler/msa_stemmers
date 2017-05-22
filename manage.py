@@ -18,7 +18,7 @@ def runserver(host='0.0.0.0', port=None):
     app.run(debug=True, host=host, port=int(port))
 
 
-@manager
+@manager.command
 def gunicorn():
     from gunicorn.app.base import Application
 
