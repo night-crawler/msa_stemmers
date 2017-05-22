@@ -3,6 +3,7 @@ services:
   web:
      build: .
      image: ncrawler/msa_stemmers:0.0.5-dev
+     container_name: msa_stemmers_dev
      command: runserver
      volumes:
        - .:/application/msa_stemmers
