@@ -10,51 +10,66 @@ from . import jsonrpc
 
 STEMMER_MAP = {
     'danish': {
+        'default': snowball.DanishStemmer,
         'nltk.snowball': snowball.DanishStemmer,
     },
     'dutch': {
+        'default': snowball.DutchStemmer,
         'nltk.snowball': snowball.DutchStemmer,
     },
     'english': {
+        'default': snowball.EnglishStemmer,
         'nltk.snowball': snowball.EnglishStemmer,
         'nltk.lancaster': LancasterStemmer,
         'nltk.porter': snowball.PorterStemmer,
     },
     'finnish': {
+        'default': snowball.FinnishStemmer,
         'nltk.snowball': snowball.FinnishStemmer,
     },
     'french': {
+        'default': snowball.FrenchStemmer,
         'nltk.snowball': snowball.FrenchStemmer,
     },
     'german': {
+        'default': snowball.GermanStemmer,
         'nltk.snowball': snowball.GermanStemmer,
     },
     'hungarian': {
+        'default': snowball.HungarianStemmer,
         'nltk.snowball': snowball.HungarianStemmer,
     },
     'italian': {
+        'default': snowball.ItalianStemmer,
         'nltk.snowball': snowball.ItalianStemmer,
     },
     'norwegian': {
+        'default': snowball.NorwegianStemmer,
         'nltk.snowball': snowball.NorwegianStemmer,
     },
     'portuguese': {
+        'default': snowball.PortugueseStemmer,
         'nltk.snowball': snowball.PortugueseStemmer,
     },
     'romanian': {
+        'default': snowball.RomanianStemmer,
         'nltk.snowball': snowball.RomanianStemmer,
     },
     'russian': {
+        'default': snowball.RussianStemmer,
         'nltk.snowball': snowball.RussianStemmer,
     },
     'spanish': {
+        'default': snowball.SpanishStemmer,
         'nltk.snowball': snowball.SpanishStemmer,
     },
     'swedish': {
+        'default': snowball.SwedishStemmer,
         'nltk.snowball': snowball.SwedishStemmer,
     },
     'arabic': {
-        'nltk.stem.isri': ISRIStemmer
+        'default': ISRIStemmer,
+        'nltk.isri': ISRIStemmer,
     }
 }
 
@@ -105,7 +120,7 @@ def get_stemmer(lang: str, stemmer_class: str) -> t.Type[SnowballStemmer]:
 
 
 @jsonrpc.method('nltk.stem(String, String, String, Object) -> Array')
-def stem(lang, text, stemmer_class='nltk.snowball', stemmer_options=None):
+def stem(lang, text, stemmer_class='default', stemmer_options=None):
     stemmer_class = get_stemmer(lang, stemmer_class)
     stemmer_options = get_stemmer_options(stemmer_class, stemmer_options or {})
     stemmer_instance = stemmer_class(**stemmer_options)
