@@ -112,7 +112,7 @@ def stem(lang, text, stemmer_class='nltk.snowball', stemmer_options=None):
 
     stemmed_words = []
     for word in text.split():
-        stemmed_words.append(stemmer_instance.stem(word))
+        stemmed_words.append({word: [stemmer_instance.stem(word)]})
 
     return stemmed_words
 

@@ -25,7 +25,7 @@ def gunicorn(host, port, workers):
 
     class FlaskApplication(Application):
         def init(self, parser, opts, args):
-            cfg = self.get_config_from_module_name('gunicorn_release')
+            cfg = self.get_config_from_module_name('gunicorn_dev')
             clean_cfg = {}
             for k, v in cfg.items():
                 # Ignore unknown names
