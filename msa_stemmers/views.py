@@ -5,8 +5,8 @@ import pycountry
 from nltk import SnowballStemmer, LancasterStemmer, ISRIStemmer
 from nltk.stem import snowball
 
+from msa_stemmers import jsonrpc
 from msa_stemmers.schemas import LanguageSchema
-from . import jsonrpc
 
 STEMMER_MAP = {
     'danish': {

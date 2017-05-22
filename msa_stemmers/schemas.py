@@ -7,4 +7,3 @@ class LanguageSchema(Schema):
     name = fields.Str()
     scope = fields.Str()
     type = fields.Str()
-

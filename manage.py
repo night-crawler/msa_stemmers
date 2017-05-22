@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 from flask_script import Manager
 
 from msa_stemmers import create_app
@@ -17,28 +18,23 @@ def runserver(host='0.0.0.0', port=None):
     app.run(debug=True, host=host, port=int(port))
 
 
-@manager.option('-h', '--host', dest='host', default='')
-@manager.option('-p', '--port', dest='port', type=int, default=0)
-@manager.option('-w', '--workers', dest='workers', type=int, default=0)
-def gunicorn(host, port, workers):
+@manager
+def gunicorn():
     from gunicorn.app.base import Application
 
     class FlaskApplication(Application):
         def init(self, parser, opts, args):
-            cfg = self.get_config_from_module_name('gunicorn_dev')
+            module_name = 'gunicorn_release'
+            if 'GUNICORN_DEV' in os.environ:
+                module_name = 'gunicorn_dev'
+
+            cfg = self.get_config_from_module_name(module_name)
             clean_cfg = {}
             for k, v in cfg.items():
                 # Ignore unknown names
                 if k not in self.cfg.settings:
                     continue
                 clean_cfg[k.lower()] = v
-
-            if host:
-                clean_cfg['host'] = host
-            if port:
-                clean_cfg['port'] = port
-            if workers:
-                clean_cfg['workers'] = workers
             return clean_cfg
 
         def load(self):
