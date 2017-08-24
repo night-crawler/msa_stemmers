@@ -8,4 +8,4 @@ services:
      volumes:
        - .:/application/msa_stemmers
      ports:
-       - "17920:17920"
+       - "17920:8000"

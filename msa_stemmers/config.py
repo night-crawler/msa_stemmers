@@ -9,7 +9,7 @@ class BaseConfig:
     DEBUG = False
     TESTING = False
     HOST = 'localhost'
-    PORT = 17920
+    PORT = 8000
 
 
 class DevelopmentConfig(BaseConfig):
