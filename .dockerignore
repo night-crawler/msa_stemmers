@@ -5,7 +5,7 @@ node_modules/
 .idea/
 __pycache__
 .bumpversion.cfg
-build.sh
+scripts/*
 docker-compose.production.yml
 docker-compose.yml
 .ash_history
