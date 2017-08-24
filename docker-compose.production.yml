@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-     image: ncrawler/msa_stemmers:0.0.8
+     image: ncrawler/msa_stemmers:0.0.9
      container_name: msa_stemmers__prod
      hostname: msa_stemmers__prod
      command: gunicorn
