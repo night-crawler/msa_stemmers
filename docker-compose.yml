@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-     image: ncrawler/msa_stemmers:image: ncrawler/msa_stemmers:0.0.6-dev
+     image: ncrawler/msa_stemmers:image: ncrawler/msa_stemmers:0.0.7-dev
      container_name: msa_stemmers__dev
      hostname: msa_stemmers__dev
      command: runserver
