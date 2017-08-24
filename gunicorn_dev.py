@@ -1,6 +1,6 @@
 import os
 
-bind = '0.0.0.0:17920'
+bind = '0.0.0.0:8000'
 workers = os.environ.get('GUNICORN_WORKERS', 4)
 reload = True
 preload_app = True

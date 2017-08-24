@@ -1,6 +1,6 @@
 import os
 
-bind = ['0.0.0.0:17920', 'unix:/application/run/gunicorn.sock']
+bind = ['0.0.0.0:8000', 'unix:/application/run/gunicorn.sock']
 workers = os.environ.get('GUNICORN_WORKERS', 4)
 pid = '/application/run/gunicorn.pid'
 reload = True
