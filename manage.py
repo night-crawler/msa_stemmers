@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 import os
+
+import nltk
 from flask_script import Manager
 
 from msa_stemmers import create_app
+from msa_stemmers.utils import ensure_nltk_ready
 
 app = create_app(__name__)
 manager = Manager(app)
+
+ensure_nltk_ready()
 
 
 @manager.command
@@ -24,10 +29,7 @@ def gunicorn():
 
     class FlaskApplication(Application):
         def init(self, parser, opts, args):
-            module_name = 'gunicorn_release'
-            if 'GUNICORN_DEV' in os.environ:
-                module_name = 'gunicorn_dev'
-
+            module_name = os.environ.get('GUNICORN_MODULE', 'gunicorn_dev')
             cfg = self.get_config_from_module_name(module_name)
             clean_cfg = {}
             for k, v in cfg.items():
@@ -42,6 +44,18 @@ def gunicorn():
 
     application = FlaskApplication()
     return application.run()
+
+
+@manager.option('-h', '--host', dest='host')
+@manager.option('-p', '--port', dest='port')
+def uwsgi(host=None, port=None, ):
+    from uwsgi_env.utils import uwsgi as _uwsgi
+    return _uwsgi(host=host, port=port, project='msa_stemmers')
+
+
+@manager.command
+def download_nltk():
+    nltk.download('stopwords')
 
 
 if __name__ == '__main__':

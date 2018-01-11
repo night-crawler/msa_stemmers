@@ -7,7 +7,7 @@ __version__ = '0.0.12'
 jsonrpc = JSONRPC(service_url='/api', enable_web_browsable_api=True)
 
 
-def create_app(import_name: str, config_name: str='default') -> Flask:
+def create_app(import_name: str, config_name: str = 'default') -> Flask:
     from .config import configure_app  # noqa
     from . import views  # noqa
 

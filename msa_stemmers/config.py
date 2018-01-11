@@ -36,7 +36,7 @@ config = {
 
 
 def configure_app(app, config_name='default'):
-    config_name = os.getenv('MSA_STEMMERS_CONFIG_NAME', None) or config_name
+    config_name = os.getenv('CONFIG_NAME', None) or config_name
 
     app.config.from_object(config[config_name])
     app.config.from_envvar('MSA_STEMMERS', silent=True)
