@@ -245,14 +245,32 @@ def activate_locale(language_or_language_code: str, silent: bool = False):
             raise exceptions.LocaleDoesNotExist(
                 'Cannot find a locale for language %s' % language_or_language_code)
 
+    initial_translation = None
     for locale_filename in os.listdir(locale_dir):
         if not os.path.isfile(os.path.join(locale_dir, locale_filename)):
             continue
         domain = os.path.splitext(locale_filename)[0]
         translation = gettext.translation(domain, pycountry.LOCALES_DIR, languages=[lang_code])
-        translation.install()
-
+        if not initial_translation:
+            initial_translation = translation
+        else:
+            initial_translation.add_fallback(translation)
+    initial_translation and initial_translation.install()
     return True
+
+
+# _translation = None
+# for locale_filename in os.listdir(locale_dir):
+#     if not os.path.isfile(os.path.join(locale_dir, locale_filename)):
+#         continue
+#     domain = os.path.splitext(locale_filename)[0]
+#     translation = gettext.translation(domain, pycountry.LOCALES_DIR, languages=[lang_code])
+#     if not _translation:
+#         _translation = translation
+#     else:
+#         _translation.add_fallback(translation)
+#     print('install', translation, domain)
+# _translation and _translation.install()
 
 
 def get_supported_languages(language: str = 'en', silent=True):
