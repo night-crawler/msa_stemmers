@@ -25,6 +25,7 @@ class ProductionConfig(BaseConfig):
 class TestingConfig(BaseConfig):
     DEBUG = False
     TESTING = True
+    PORT = 9091
 
 
 config = {
