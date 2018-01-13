@@ -21,8 +21,8 @@ run-tests:
   script:
     - mkdir -p public
     - apt-get install --no-install-recommends --assume-yes $BUILD_DEPS
-    - pip install -r requirements/dev.txt
-    - pytest . --cov=$COVERAGE
+    - pip install --no-cache-dir --src /usr/local/src -r requirements/dev.txt
+    - pytest --cov=$COVERAGE -s .
     - export SCORE=$(pylint $PYLINT 2>&1 | grep 'Your code has been rated' | cut -d' ' -f7 | cut -d'/' -f1)
     - coverage-badge -o public/coverage.svg
     - anybadge --value=$SCORE --file=public/pylint.svg pylint
