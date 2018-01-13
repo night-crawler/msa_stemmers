@@ -3,6 +3,7 @@ variables:
   COVERAGE: msa_stemmers
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   IMAGE_VERSION_TAG: $CI_REGISTRY_IMAGE:0.0.14
+  BUILD_DEPS: libev-dev
 
 before_script:
   - env
@@ -18,6 +19,7 @@ run-tests:
   tags: ["python"]
   script:
     - mkdir -p public
+    - apt-get install --no-install-recommends --assume-yes $BUILD_DEPS
     - pip install -r requirements/dev.txt
     - pytest . --cov=$COVERAGE
     - export SCORE=$(pylint $PYLINT 2>&1 | grep 'Your code has been rated' | cut -d' ' -f7 | cut -d'/' -f1)
