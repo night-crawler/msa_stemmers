@@ -6,15 +6,18 @@ variables:
 
 before_script:
   - env
-  - mkdir -p public
-  - docker network connect build-network `cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3`
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+stages:
+  - test
+  - build
+  - deploy
 
 run-tests:
   image: $DOCKER_PYTHON_TEST_IMAGE
   stage: test
   tags: ["python"]
   script:
+    - mkdir -p public
     - pip install -r requirements/dev.txt
     - pytest . --cov=$COVERAGE
     - export SCORE=$(pylint $PYLINT 2>&1 | grep 'Your code has been rated' | cut -d' ' -f7 | cut -d'/' -f1)
@@ -29,6 +32,8 @@ build-image:
   stage: build
   tags: ["docker"]
   script:
+    - docker network connect build-network `cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3`
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build --file Dockerfile --network "build-network" -t $IMAGE_TAG -t $IMAGE_VERSION_TAG .
     - docker push $IMAGE_TAG
     - docker push $IMAGE_VERSION_TAG
