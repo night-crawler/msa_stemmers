@@ -1,3 +1,4 @@
+-r ./base.txt
 bumpversion
 pytest
 pytest-cov
