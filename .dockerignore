@@ -6,6 +6,11 @@ node_modules/
 __pycache__
 .bumpversion.cfg
 scripts/*
-docker-compose.production.yml
 docker-compose.yml
 .ash_history
+Dockerfile
+.gitignore
+.cache
+*.py[cod]
+.coverage
+.dockerignore

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import os
+import sys
+from setproctitle import setproctitle
 
 import nltk
 from flask_script import Manager
@@ -7,10 +9,13 @@ from flask_script import Manager
 from msa_stemmers import create_app
 from msa_stemmers.utils import ensure_nltk_ready
 
-app = create_app(__name__)
+app = create_app('stemmers')
 manager = Manager(app)
+setproctitle('stemmers')
 
-ensure_nltk_ready()
+if hasattr(sys, 'pypy_version_info'):
+    sys.stdout.write('RUNNING IN PYPY %s!\n' % str(sys.pypy_version_info))
+    sys.stdout.flush()
 
 
 @manager.command
@@ -25,6 +30,7 @@ def runserver(host='0.0.0.0', port=None):
 
 @manager.command
 def gunicorn():
+    ensure_nltk_ready()
     from gunicorn.app.base import Application
 
     class FlaskApplication(Application):
@@ -48,9 +54,19 @@ def gunicorn():
 
 @manager.option('-h', '--host', dest='host')
 @manager.option('-p', '--port', dest='port')
-def uwsgi(host=None, port=None, ):
+def uwsgi(host=None, port=None):
+    ensure_nltk_ready()
     from uwsgi_env.utils import uwsgi as _uwsgi
     return _uwsgi(host=host, port=port, project='msa_stemmers')
+
+
+@manager.option('-h', '--host', dest='host')
+@manager.option('-p', '--port', dest='port')
+def bjoern(host=None, port=None):
+    import bjoern as bj
+    host = host or os.getenv('HOST', '0.0.0.0')
+    port = int(port or os.getenv('PORT', port) or '8000')
+    return bj.run(app, host, port, reuse_port=True)
 
 
 @manager.command

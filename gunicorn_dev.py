@@ -1,7 +1,9 @@
 import os
 
 bind = '0.0.0.0:8000'
-workers = os.environ.get('GUNICORN_WORKERS', 4)
+proc_name = 'stemmers'
+workers = os.environ.get('GUNICORN_WORKERS', 2)
+worker_class = os.environ.get('GUNICORN_WORKER_CLASS', 'sync')
 reload = True
 preload_app = True
 raw_env = [

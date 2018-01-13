@@ -3,8 +3,13 @@ Flask==0.12.2
 # fixed an issue python pypy-3.5
 -e git+https://github.com/night-crawler/flask-jsonrpc.git@HEAD#egg=flask-jsonrpc
 Flask_Script==2.0.6
-gunicorn==19.7.1
 marshmallow==2.15.0
 nltk==3.2.5
 pycountry==17.9.23
+
 uwsgi-env>=0.1.0
+gunicorn
+uWSGI
+bjoern
+
+setproctitle
