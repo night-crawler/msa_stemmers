@@ -2,7 +2,7 @@ variables:
   PYLINT: msa_stemmers
   COVERAGE: msa_stemmers
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-  IMAGE_VERSION_TAG: $CI_REGISTRY_IMAGE:0.0.13
+  IMAGE_VERSION_TAG: $CI_REGISTRY_IMAGE:0.0.14
 
 before_script:
   - env
