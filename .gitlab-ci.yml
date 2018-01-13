@@ -7,6 +7,7 @@ variables:
 
 before_script:
   - env
+  - docker network connect build-network `cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3`
 
 stages:
   - test
@@ -34,7 +35,6 @@ build-image:
   stage: build
   tags: ["docker"]
   script:
-    - docker network connect build-network `cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3`
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build --file Dockerfile --network "build-network" -t $IMAGE_TAG -t $IMAGE_VERSION_TAG .
     - docker push $IMAGE_TAG
