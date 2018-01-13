@@ -1,0 +1,44 @@
+variables:
+  PYLINT: msa_stemmers
+  COVERAGE: msa_stemmers
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  IMAGE_VERSION_TAG: $CI_REGISTRY_IMAGE:0.0.13
+
+before_script:
+  - env
+  - mkdir -p public
+  - docker network connect build-network `cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3`
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+run-tests:
+  image: $DOCKER_PYTHON_TEST_IMAGE
+  stage: test
+  tags: ["python"]
+  script:
+    - pip install -r requirements/dev.txt
+    - pytest . --cov=$COVERAGE
+    - export SCORE=$(pylint $PYLINT 2>&1 | grep 'Your code has been rated' | cut -d' ' -f7 | cut -d'/' -f1)
+    - coverage-badge -o public/coverage.svg
+    - anybadge --value=$SCORE --file=public/pylint.svg pylint
+  artifacts:
+    paths:
+      - public/coverage.svg
+      - public/pylint.svg
+
+build-image:
+  stage: build
+  tags: ["docker"]
+  script:
+    - docker build --file Dockerfile --network "build-network" -t $IMAGE_TAG -t $IMAGE_VERSION_TAG .
+    - docker push $IMAGE_TAG
+    - docker push $IMAGE_VERSION_TAG
+
+pages:
+  stage: deploy
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+  script:
+    - ls -lah

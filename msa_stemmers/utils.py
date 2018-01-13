@@ -113,7 +113,9 @@ def get_stemmer_options(stemmer_class: t.Type[StemmerI], update_options: dict) -
 def get_lang(lang: str) -> 'pycountry.db.Data':
     """
     :param lang: 'ru' | 'rus' | 'russian'
-    :return: instance of pycountry.db.Data - Language(alpha_2='ru', alpha_3='rus', name='Russian', scope='I', type='L')
+    :return: instance of pycountry.db.Data
+    >>> get_lang('en')
+    >>> Language(alpha_2='en', alpha_3='eng', name='English', scope='I', type='L')
     """
     try:
         if len(lang) == 2:
@@ -148,19 +150,22 @@ def get_stemmer_class(lang: str, stemmer_classname: str) -> t.Type[StemmerI]:
 
     stemmers = LANGUAGE_STEMMERS_MAP.get(lang_name)
     if not stemmers:
-        raise exceptions.StemmerDoesNotExist('No stemmer for language {0}({1})'.format(lang, lang_name))
+        raise exceptions.StemmerDoesNotExist(
+            'No stemmer for language {0}({1})'.format(lang, lang_name))
 
     stemmer_class = stemmers.get(stemmer_classname)
     if not stemmer_class:
-        raise exceptions.StemmerDoesNotExist('No stemmer with classname {0}'.format(stemmer_classname))
+        raise exceptions.StemmerDoesNotExist(
+            'No stemmer with classname {0}'.format(stemmer_classname))
 
     return stemmer_class
 
 
 def get_stemmer(lang, stemmer_classname='default', **stemmer_options) -> StemmerI:
     """
-    Creates an instance of stemmer class with additional `stemmer_options` merged with hardcoded default options.
-    At the moment there's nothing acceptable except 'ignore_stopwords'
+    Creates an instance of stemmer class with additional `stemmer_options`
+     merged with hardcoded default options. At the moment there's nothing
+     acceptable except 'ignore_stopwords'.
     :param lang: 'ru' | 'rus' | 'russian'
     :param stemmer_classname: 'default' | 'nltk.snowball'
     :param stemmer_options: a dict with options
@@ -185,7 +190,8 @@ def stem_text(lang: str, text: str,
               stemmer_classname: str = 'default',
               **stemmer_options) -> t.List[t.Dict[str, t.List[str]]]:
     """
-    Performs stemming of preliminarily cleaned (by you) text. Special chars are not being processed as you wish.
+    Performs stemming of preliminarily cleaned (by you) text.
+    Special chars are not being processed as you wish.
     >>> stem_text('en', 'Go and like yourself!', stemmer_classname='nltk.lancaster')
     >>> [{'Go': ['go']}, {'and': ['and']}, {'like': ['lik']}, {'yourself!': ['yourself!']}]
 
@@ -236,7 +242,8 @@ def activate_locale(language_or_language_code: str, silent: bool = False):
         if not os.path.exists(locale_dir):
             if silent:
                 return False
-            raise exceptions.LocaleDoesNotExist('Cannot find a locale for language %s' % language_or_language_code)
+            raise exceptions.LocaleDoesNotExist(
+                'Cannot find a locale for language %s' % language_or_language_code)
 
     for locale_filename in os.listdir(locale_dir):
         if not os.path.isfile(os.path.join(locale_dir, locale_filename)):
@@ -270,7 +277,7 @@ def get_supported_languages(language: str = 'en', silent=True):
         _lang = pycountry.languages.get(name=lang.capitalize())
         lang_bundle = LanguageSchema().dump(_lang).data
         lang_bundle['stemmers'] = []
-        for stemmer_name in stemmers_dict.keys():
+        for stemmer_name in stemmers_dict:
             lang_bundle['stemmers'].append(stemmer_name)
         res.append(lang_bundle)
     return res
