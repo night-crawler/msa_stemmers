@@ -1,7 +1,3 @@
-import subprocess
-import os
-from time import sleep
-
 import pytest
 
 from msa_stemmers import create_app
@@ -23,12 +19,3 @@ def server(app):
         port=app.config['PORT'],
     )
     return ServiceProxy(service_url)
-
-
-@pytest.fixture(scope="session", autouse=True)
-def start_server(request):
-    env = os.environ.copy()
-    env['CONFIG_NAME'] = 'test'
-    proc = subprocess.Popen(['python', './manage.py', 'runserver'], env=env)
-    sleep(1)
-    request.addfinalizer(proc.kill)
