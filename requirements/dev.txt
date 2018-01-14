@@ -3,4 +3,5 @@ bumpversion
 pytest
 pytest-cov
 pytest-flask
+pytest-ordering
 pylint

@@ -14,7 +14,9 @@ def monkey_patched_nltk_find(resource_name, paths=None):
     raise LookupError('I AM A MOKY-MONKEY!')
 
 
+# ## Should run first: mock fails after the stem() first run
 # noinspection PyMethodMayBeStatic
+@pytest.mark.run(order=1)
 class UtilsTest:
     def test__utils__get_lang(self):
         assert utils.get_lang('ru').name == 'Russian', 'Ensure alpha-2 languages are supported'
