@@ -19,7 +19,6 @@ run-tests:
   stage: test
   tags: ["python"]
   script:
-    - lsof -i
     - mkdir -p public
     - apt-get install --no-install-recommends --assume-yes $BUILD_DEPS
     - pip install --no-cache-dir --src /usr/local/src -r requirements/dev.txt
